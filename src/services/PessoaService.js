@@ -12,6 +12,10 @@ class PessoaController extends Service {
         
         return matriculas;
     }
+    async buscaPorEscopo(){
+        const listaPessoas = await super.pegaTodosPorScopo('todosPorScopo');
+        return listaPessoas;
+    }
 }
 
 module.exports = PessoaController;

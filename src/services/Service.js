@@ -10,6 +10,12 @@ class Service {
   async pegaTodosOsModelos(){
     return dataSource[this.model].findAll();
   }
+  async pegaTodosPorScopo(escopo){
+    const listaPessoas = await dataSource[this.model].scope(escopo).findAll();
+    return listaPessoas;
+   
+  }
+
   async serviceAtualiza(novosDados,id){
                                                             //update é um metodo do sequelize
     const listaDeAtualizacao = dataSource[this.model].update(novosDados,{where:{id : id}});

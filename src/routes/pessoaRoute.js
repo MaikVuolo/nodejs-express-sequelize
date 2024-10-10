@@ -9,6 +9,7 @@ const pessoaController = new PessoaController();
 const matriculaController = new MatriculaController();
 
 routes.get('/pessoas',(req,res)=> pessoaController.pegaTodos(req,res));
+routes.get('/pessoas/todos',(req,res)=> pessoaController.pessoaPorEscopo(req,res));
 routes.get('/pessoas/:id',(req,res) => pessoaController.buscaPorId(req,res));
 routes.post('/pessoas',(req,res) => pessoaController.criaNovoRegistro(req,res));
 routes.put('/pessoas/:id',(req,res) => pessoaController.atualizaRegistro(req,res));

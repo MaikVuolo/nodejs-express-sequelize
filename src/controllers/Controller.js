@@ -8,10 +8,10 @@ class Controller {
     async pegaTodos(req, res) {
         try {
             const listaRegitros = await this.entidadeService.pegaTodosOsModelos();
-            return res.status(200).json({listaRegitros});
+            return res.status(200).json(listaRegitros);
 
         } catch (erro) {
-            //erro
+            res.status(500).json({erro: erro.message});
 
         }
     }
@@ -22,7 +22,7 @@ class Controller {
             const buscando = await this.entidadeService.serviceBuscaPorId(id);
             res.status(200).json({buscando});
         } catch (erro) {
-            
+            res.status(500).json({erro: erro.message});
         }
     }
     async criaNovoRegistro(req,res){
@@ -31,7 +31,7 @@ class Controller {
             const novo = await this.entidadeService.criandoNovo(dadosFornecidos);
             res.status(200).json({message:'Novo registro criado com sucesso ', novo});
         } catch (erro) {
-            
+           res.status(500).json({erro: erro.message});
         }
     }
 
@@ -46,7 +46,7 @@ class Controller {
             }
             res.status(200).json({message:'Registro atualizado com sucesso'});
         } catch (erro) {
-            
+            res.status(500).json({erro: erro.message});  
         }
     }
     async deleteRegister(req,res){

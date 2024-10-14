@@ -6,7 +6,7 @@ const routes = Router();
 
 const cursoController = new CursoController();
 
-routes.get('/cursos',(req,res)=> cursoController.pegaTodos(req,res));
+routes.get('/cursos',(req,res)=> cursoController.pegaCursosComData(req,res));
 routes.get('/cursos/:id',(req,res) => cursoController.buscaPorId(req,res));
 routes.post('/cursos',(req,res) => cursoController.criaNovoRegistro(req,res));
 routes.put('/cursos/:id',(req,res) => cursoController.atualizaRegistro(req,res));

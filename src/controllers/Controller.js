@@ -1,6 +1,8 @@
 /* eslint-disable linebreak-style */
 /* eslint-disable no-empty */
 /* eslint-disable indent */
+const converteString = require ('../utils/conversorDeStringHelper.js');
+
 class Controller {
     constructor(entidadeService) {
         this.entidadeService = entidadeService;
@@ -20,11 +22,23 @@ class Controller {
         try {
             const { id } = req.params;
             const buscando = await this.entidadeService.serviceBuscaPorId(id);
-            res.status(200).json({buscando});
+            res.status(200).json(buscando);
         } catch (erro) {
             res.status(500).json({erro: erro.message});
-        }
+        }    
     }
+    async buscaPorParametro(req,res){
+        const { ...params } = req.params;
+        const where = converteString(params);
+        try {
+            const buscando = await this.entidadeService.serviceBuscaPorParametro(where);
+            
+            res.status(200).json(buscando);
+        } catch (erro) {
+            res.status(500).json({erro: erro.message});
+    }
+}    
+
     async criaNovoRegistro(req,res){
         try {
             const dadosFornecidos = req.body;
@@ -37,9 +51,10 @@ class Controller {
 
     async atualizaRegistro(req,res){
         try {
-            const { id } = req.params;
+            const { ...params } = req.params;
             const novosDados = req.body;
-            const isUpdate = await this.entidadeService.serviceAtualiza(novosDados,Number(id));
+            const where = converteString(params);
+            const isUpdate = await this.entidadeService.serviceAtualiza(novosDados,{where:{...where}});
 
             if (!isUpdate){
                 res.status(400).json({message:'Nenhum registro atualizado'});
@@ -52,8 +67,17 @@ class Controller {
     async deleteRegister(req,res){
         try {
             const { id } = req.params;
-            await this.entidadeService.deleteId(Number(id));
+            await this.entidadeService.deleteId(id);
             res.status(200).json({message:`Id ${id} deletado com sucesso`});
+        } catch (erro) {
+            return res.status(500).json(erro.message);
+        }
+    }
+    async restauraRegistro(req,res){
+        try {
+            const { id } = req.params;
+            await this.entidadeService.restauraId(Number(id));
+            res.status(200).json({message:`Id ${id} restaurado com sucesso`});
         } catch (erro) {
             return res.status(500).json(erro.message);
         }
